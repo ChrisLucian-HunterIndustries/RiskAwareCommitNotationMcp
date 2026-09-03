@@ -38,7 +38,7 @@ docs for the full notation.
 
 ## Setup
 
-Requires [mise](https://mise.jdx.dev/) and [uv](https://docs.astral.sh/uv/).
+Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
 
 ```sh
 ./build_and_test        # installs Python/uv via mise, syncs deps, runs tests
@@ -47,7 +47,7 @@ Requires [mise](https://mise.jdx.dev/) and [uv](https://docs.astral.sh/uv/).
 ## Running the server
 
 ```sh
-uv run risk-aware-commit-notation-mcp
+mise run run
 ```
 
 This starts the server on stdio, ready to be connected to by an MCP client
