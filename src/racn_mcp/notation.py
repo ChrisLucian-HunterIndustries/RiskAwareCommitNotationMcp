@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Literal
+
 RISK_LEVELS: dict[str, str] = {
     ".": "Proven Safe",
     "^": "Validated",
@@ -43,9 +45,30 @@ EXTENSION_INTENTIONS: dict[str, str] = {
 
 INTENTIONS: dict[str, str] = {**CORE_INTENTIONS, **EXTENSION_INTENTIONS}
 
+# Named form of the risk levels above, for callers (e.g. LLMs) that reason
+# more reliably about words than single-character RACN symbols.
+RISK_NAMES: dict[str, str] = {
+    "proven_safe": ".",
+    "validated": "^",
+    "risky": "!",
+    "probably_broken": "@",
+}
+
+RiskName = Literal[tuple(RISK_NAMES)]
+
 
 class NotationError(ValueError):
     """Raised when risk, intention, or comment fail validation."""
+
+
+def resolve_risk_name(name: str) -> str:
+    """Translate a named risk level (e.g. "risky") to its RACN symbol (e.g. "!")."""
+    try:
+        return RISK_NAMES[name]
+    except KeyError:
+        raise NotationError(
+            f"Invalid risk {name!r}. Must be one of: {', '.join(RISK_NAMES)}"
+        ) from None
 
 
 def format_commit_message(risk: str, intention: str, comment: str) -> str:

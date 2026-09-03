@@ -1,6 +1,11 @@
 import pytest
 
-from racn_mcp.notation import NotationError, format_commit_message
+from racn_mcp.notation import (
+    RISK_NAMES,
+    NotationError,
+    format_commit_message,
+    resolve_risk_name,
+)
 
 
 def test_formats_message_with_risk_intention_and_comment():
@@ -49,3 +54,13 @@ def test_rejects_invalid_intention():
 def test_rejects_empty_comment():
     with pytest.raises(NotationError):
         format_commit_message(".", "f", "   ")
+
+
+@pytest.mark.parametrize(("name", "symbol"), RISK_NAMES.items())
+def test_resolve_risk_name_maps_every_name_to_its_symbol(name, symbol):
+    assert resolve_risk_name(name) == symbol
+
+
+def test_resolve_risk_name_rejects_unknown_name():
+    with pytest.raises(NotationError, match="Invalid risk"):
+        resolve_risk_name("unknown")

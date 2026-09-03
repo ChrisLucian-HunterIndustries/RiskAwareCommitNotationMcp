@@ -30,13 +30,16 @@ descriptions, and input/output schemas) is captured in
 | Parameter   | Description                                                                 |
 |-------------|-------------------------------------------------------------------------------|
 | `location`  | Path to the Git repository (or a directory inside it).                        |
-| `risk`      | One of `.` (Proven Safe), `^` (Validated), `!` (Risky), `@` (Probably Broken). |
+| `risk`      | One of `proven_safe`, `validated`, `risky`, `probably_broken`.                |
 | `intention` | A core intention (`F`/`f`, `B`/`b`, `R`/`r`, `D`/`d`) or an Extension Intention (`e`, `t`, `m`, `a`, `c`, `C`, `p`, `s`, `n`, and uppercase variants). |
 | `comment`   | The commit summary text.                                                      |
 
-Casing on the intention letter follows your team's convention (e.g.
-uppercase = user-visible / intended behavior change, lowercase = internal).
-See the [RACN README](https://github.com/RefactoringCombos/ArlosCommitNotation)
+`risk` is a named value rather than the raw RACN symbol so a caller doesn't
+have to memorize single-character codes; the server translates it to the
+symbol before building the commit message. Casing on the intention letter
+follows your team's convention (e.g. uppercase = user-visible / intended
+behavior change, lowercase = internal). See the
+[RACN README](https://github.com/RefactoringCombos/ArlosCommitNotation)
 and [Extension Intentions](https://github.com/RefactoringCombos/ArlosCommitNotation/blob/main/Extension%20Intentions.md)
 docs for the full notation.
 
