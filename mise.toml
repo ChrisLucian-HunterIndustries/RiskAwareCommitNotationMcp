@@ -1,0 +1,10 @@
+[tools]
+python = "3.12"
+uv = "latest"
+
+[tasks.build_and_test]
+description = "Install dependencies and run the test suite"
+run = [
+    "uv sync",
+    "uv run pytest",
+]
