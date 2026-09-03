@@ -13,13 +13,6 @@ run = [
 description = "Run the MCP server on stdio"
 run = "uv run risk-aware-commit-notation-mcp"
 
-[tasks.restart]
-description = "Stop any running racn MCP server processes (which can hold a lock on .venv/Scripts and block uv sync on Windows), then start fresh"
-run = [
-    "python scripts/stop_mcp_server.py",
-    "mise run run",
-]
-
 [tasks.format]
 description = "Format all code"
 run = [
