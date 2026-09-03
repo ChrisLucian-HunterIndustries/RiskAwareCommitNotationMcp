@@ -36,7 +36,9 @@ def commit(location: str, intention: str, risk: str, comment: str) -> str:
         comment: The commit summary text.
     """
     try:
-        result = do_commit(location=location, intention=intention, risk=risk, comment=comment)
+        result = do_commit(
+            location=location, intention=intention, risk=risk, comment=comment
+        )
     except CommitError as e:
         raise ValueError(str(e)) from e
 
@@ -47,7 +49,9 @@ def commit(location: str, intention: str, risk: str, comment: str) -> str:
 def notation_reference() -> str:
     """Return the risk levels and intentions available in Arlo's Risk-Aware Commit Notation."""
     risk_lines = "\n".join(f"  {code}  {name}" for code, name in RISK_LEVELS.items())
-    intention_lines = "\n".join(f"  {code}  {name}" for code, name in INTENTIONS.items())
+    intention_lines = "\n".join(
+        f"  {code}  {name}" for code, name in INTENTIONS.items()
+    )
     return f"Risk levels:\n{risk_lines}\n\nIntentions:\n{intention_lines}"
 
 

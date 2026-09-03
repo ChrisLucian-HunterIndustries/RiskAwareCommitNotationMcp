@@ -25,7 +25,8 @@ def test_accepts_all_core_intentions(intention):
 
 
 @pytest.mark.parametrize(
-    "intention", ["M", "m", "T", "t", "E", "e", "A", "a", "c", "C", "P", "p", "S", "s", "N", "n"]
+    "intention",
+    ["M", "m", "T", "t", "E", "e", "A", "a", "c", "C", "P", "p", "S", "s", "N", "n"],
 )
 def test_accepts_all_extension_intentions(intention):
     assert format_commit_message(".", intention, "x") == f". {intention} x"

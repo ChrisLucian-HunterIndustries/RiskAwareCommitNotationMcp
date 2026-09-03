@@ -26,7 +26,11 @@ def test_commits_staged_changes(repo: Path):
 
     assert result.message == ". r Add a.txt"
     log = subprocess.run(
-        ["git", "log", "-1", "--pretty=%s"], cwd=repo, capture_output=True, text=True, check=True
+        ["git", "log", "-1", "--pretty=%s"],
+        cwd=repo,
+        capture_output=True,
+        text=True,
+        check=True,
     )
     assert log.stdout.strip() == ". r Add a.txt"
 
