@@ -44,12 +44,18 @@ docs for the underlying notation.
 
 ## Running the server
 
+Requires [mise](https://mise.jdx.dev/) — it installs the pinned Python and
+uv for you, so no other setup is needed.
+
 ```sh
+git clone https://github.com/JayBazuzi/RiskAwareCommitNotationMcp.git
+cd RiskAwareCommitNotationMcp
 mise run run
 ```
 
-This starts the server on stdio, ready to be connected to by an MCP client
-(e.g. registered as a tool provider in an AI coding assistant).
+`mise run run` installs Python/uv and dependencies on first use, then starts
+the server on stdio, ready to be connected to by an MCP client (e.g.
+registered as a tool provider in an AI coding assistant).
 
 ## Contributing
 
