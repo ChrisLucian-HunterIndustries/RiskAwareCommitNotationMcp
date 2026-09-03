@@ -42,33 +42,7 @@ translates them to the symbol before building the commit message. Call
 and [Extension Intentions](https://github.com/RefactoringCombos/ArlosCommitNotation/blob/main/Extension%20Intentions.md)
 docs for the underlying notation.
 
-## Setup
+## Contributing
 
-Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
-
-```sh
-./build_and_test        # installs Python/uv via mise, syncs deps, runs tests
-```
-
-## Running the server
-
-```sh
-mise run run
-```
-
-This starts the server on stdio, ready to be connected to by an MCP client
-(e.g. registered as a tool provider in an AI coding assistant).
-
-## Development
-
-Source lives in `src/racn_mcp/`:
-
-- `notation.py` — RACN message formatting and validation.
-- `git_commit.py` — runs the actual `git commit`.
-- `server.py` — the MCP server and tool definitions.
-
-Tests live in `tests/` and run via `./build_and_test` or `uv run pytest`.
-
-This repo dogfoods its own notation: check `git log` for commit messages in
-RACN format, and see `.claude/skills/racn-classify/SKILL.md` for the
-risk/intention classification process used when committing here.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, running the server, and
+development notes.
