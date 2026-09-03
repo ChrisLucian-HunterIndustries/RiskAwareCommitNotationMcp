@@ -8,3 +8,7 @@ run = [
     "uv sync",
     "uv run pytest",
 ]
+
+[tasks.run]
+description = "Run the MCP server on stdio"
+run = "uv run risk-aware-commit-notation-mcp"
