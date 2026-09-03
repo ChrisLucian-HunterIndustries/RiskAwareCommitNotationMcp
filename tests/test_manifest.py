@@ -1,7 +1,6 @@
 import asyncio
-import json
 
-from approvaltests import verify
+from approvaltests import verify_as_json
 
 from racn_mcp.server import mcp
 
@@ -11,4 +10,4 @@ def test_tools_manifest():
     tools = asyncio.run(mcp.list_tools())
     manifest = [tool.model_dump(mode="json", exclude_none=True) for tool in tools]
 
-    verify(json.dumps(manifest, indent=2))
+    verify_as_json(manifest)
