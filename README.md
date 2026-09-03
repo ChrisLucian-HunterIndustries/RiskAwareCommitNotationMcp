@@ -23,7 +23,7 @@ The server exposes two MCP tools:
 
 The JSON manifest a consuming MCP client reads for these tools (names,
 descriptions, and input/output schemas) is captured in
-[`tests/test_manifest.test_tools_manifest.approved.json`](tests/test_manifest.test_tools_manifest.approved.json).
+[`tests/manifest.approved.json`](tests/manifest.approved.json).
 
 ### `commit` parameters
 
