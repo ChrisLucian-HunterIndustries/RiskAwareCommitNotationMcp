@@ -117,5 +117,12 @@ higher `.` tier, not a cap that forces `^` down to `!` when tests exist.)
    from memory of what you staged earlier.
 2. Classify each distinct concern separately if the staged diff mixes
    unrelated intentions; RACN assumes one intention per commit.
-3. State your classification and reasoning briefly before calling `commit`,
+3. Prefer several small, focused commits over one large one, even within
+   what looks like a single intention. If a change has independently
+   separable pieces — e.g. two unrelated parameters of the same function,
+   or a source change plus an unrelated cleanup it happened to touch — stage
+   and commit each piece on its own rather than combining them because
+   they landed in the same edit session. A good split still leaves every
+   commit's tests passing on their own. When in doubt, split it.
+4. State your classification and reasoning briefly before calling `commit`,
    so it's easy to correct.
