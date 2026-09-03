@@ -26,7 +26,7 @@ Intentions first:
 
 | Code | Name | Use for |
 |------|------|---------|
-| `e`/`E` | Environment | Non-code changes to dev setup/tooling that don't affect program behavior (`.gitignore`, `.gitattributes`, CI config, linting config, build scripts, editor/agent instruction files like `AGENTS.md`/`CLAUDE.md`) |
+| `e`/`E` | Environment | Non-code changes to dev setup/tooling that don't affect program behavior (`.gitignore`, `.gitattributes`, CI config, linting config, build scripts) — but not prose docs; see the note below on `e` vs `D` |
 | `t`/`T` | Test-only | Changes to automated tests without altering product functionality |
 | `m`/`M` | Merge | Merging branches |
 | `a`/`A` | Auto | Auto-formatting or code generation |
@@ -63,9 +63,12 @@ commit**: stage/commit the customer-facing portion as `F` first, then
 stage/commit the rest as `e`. Don't lump them together just because they're
 in the same file.
 
-The same test applies elsewhere: a `README.md` aimed at package consumers is
-customer-facing (`D` or `F`, not `e`); a `CONTRIBUTING.md` aimed at this
-team's own contributors is internal (`e` or `p`).
+The same test applies elsewhere, but note that `e` is for *tooling/config*,
+not prose: any Markdown/plain-text doc — `README.md`, `CONTRIBUTING.md`,
+`CLAUDE.md`/`AGENTS.md` instructions — is documentation (`D`/`d`) regardless
+of whether its audience is package consumers or this team's own contributors
+or coding agents. Reserve `e` for actual dev tooling/config (`.gitignore`,
+CI workflow files, lint/build config, `mise.toml`, lockfiles).
 
 ## Risk level
 
@@ -123,6 +126,11 @@ higher `.` tier, not a cap that forces `^` down to `!` when tests exist.)
    or a source change plus an unrelated cleanup it happened to touch — stage
    and commit each piece on its own rather than combining them because
    they landed in the same edit session. A good split still leaves every
-   commit's tests passing on their own. When in doubt, split it.
+   commit's tests passing on their own. When in doubt, split it. But don't
+   split a change that only makes sense as a unit — e.g. moving content out
+   of one file and into another (a README section relocated to a new
+   CONTRIBUTING.md) is one commit, not two; splitting it would leave an
+   intermediate commit that either duplicates or deletes the content with
+   nowhere else for it to live.
 4. State your classification and reasoning briefly before calling `commit`,
    so it's easy to correct.
