@@ -1,0 +1,69 @@
+[
+  {
+    "name": "commit",
+    "description": "Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.\n\nThe resulting commit message has the form \"<risk> <intention> <comment>\".\nAssumes changes are already staged (`git add`) at `location`.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    intention: One of F/f (Feature), B/b (Bugfix), R/r (Refactoring), D/d (Documentation).\n    risk: One of . (Proven Safe), ^ (Validated), ! (Risky), @ (Probably Broken).\n    comment: The commit summary text.\n",
+    "input_schema": {
+      "properties": {
+        "location": {
+          "title": "Location",
+          "type": "string"
+        },
+        "intention": {
+          "title": "Intention",
+          "type": "string"
+        },
+        "risk": {
+          "title": "Risk",
+          "type": "string"
+        },
+        "comment": {
+          "title": "Comment",
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "intention",
+        "risk",
+        "comment"
+      ],
+      "title": "commitArguments",
+      "type": "object"
+    },
+    "output_schema": {
+      "properties": {
+        "result": {
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "title": "commitOutput",
+      "type": "object"
+    }
+  },
+  {
+    "name": "notation_reference",
+    "description": "Return the risk levels and intentions available in Arlo's Risk-Aware Commit Notation.",
+    "input_schema": {
+      "properties": {},
+      "title": "notation_referenceArguments",
+      "type": "object"
+    },
+    "output_schema": {
+      "properties": {
+        "result": {
+          "title": "Result",
+          "type": "string"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "title": "notation_referenceOutput",
+      "type": "object"
+    }
+  }
+]
