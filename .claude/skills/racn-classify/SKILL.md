@@ -78,6 +78,15 @@ ran it and it worked, treat it as `.` too if the risk of it breaking anything
 for the product is nil — reserve `^` for cases with real behavioral risk that
 testing addressed.
 
+Risk is scoped to production/the shipped product, not to whether the change
+itself might misbehave in its own domain. A CI workflow config change (e.g.
+editing the runner matrix in a GitHub Actions YAML file) cannot break
+production even if it's wrong — worst case CI fails or misconfigures, which
+is caught immediately and affects no one outside the team. That's `.`, even
+when unverified (can't be run locally, untested runner labels, etc.). Don't
+downgrade to `!` just because the change itself wasn't validated — ask
+whether *production* is at risk, not whether the CI/tooling change is.
+
 ### `^` vs `!` for Feature/Bugfix — did automated tests cover it?
 
 For core `F`/`B` changes, the deciding question is simple: **does this commit
