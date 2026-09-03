@@ -1,5 +1,9 @@
 # Contributing
 
+This file covers working on the project itself. Anything a user of the
+server needs (what it does, how to run it) belongs in the [README](README.md)
+instead.
+
 ## Setup
 
 Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
@@ -8,14 +12,7 @@ Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
 ./build_and_test        # installs Python/uv via mise, syncs deps, runs tests
 ```
 
-## Running the server
-
-```sh
-mise run run
-```
-
-This starts the server on stdio, ready to be connected to by an MCP client
-(e.g. registered as a tool provider in an AI coding assistant).
+See the [README](README.md) for running the server.
 
 ## Development
 

@@ -42,7 +42,15 @@ translates them to the symbol before building the commit message. Call
 and [Extension Intentions](https://github.com/RefactoringCombos/ArlosCommitNotation/blob/main/Extension%20Intentions.md)
 docs for the underlying notation.
 
+## Running the server
+
+```sh
+mise run run
+```
+
+This starts the server on stdio, ready to be connected to by an MCP client
+(e.g. registered as a tool provider in an AI coding assistant).
+
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, running the server, and
-development notes.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup and development notes.
