@@ -6,11 +6,14 @@ from mcp.server.mcpserver import MCPServer
 
 from racn_mcp.git_commit import CommitError, commit as do_commit
 from racn_mcp.notation import (
+    INTENTION_NAMES,
     INTENTIONS,
     RISK_LEVELS,
     RISK_NAMES,
+    IntentionName,
     NotationError,
     RiskName,
+    resolve_intention_name,
     resolve_risk_name,
 )
 
@@ -30,22 +33,28 @@ mcp = MCPServer(
 
 
 @mcp.tool()
-def commit(location: str, intention: str, risk: RiskName, comment: str) -> str:
+def commit(location: str, intention: IntentionName, risk: RiskName, comment: str) -> str:
     """Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.
 
-    The resulting commit message has the form "<risk> <intention> <comment>".
+    The resulting commit message has the form "<risk> <intention> <comment>",
+    e.g. ". test_only Add approval test". Call `notation_reference` first to
+    see the full list of intentions and risk levels and what each means.
     Assumes changes are already staged (`git add`) at `location`.
 
     Args:
         location: Path to the Git repository (or a directory inside it).
-        intention: One of F/f (Feature), B/b (Bugfix), R/r (Refactoring), D/d (Documentation).
+        intention: The author's intention for the change, e.g. "feature" or "test_only".
         risk: How risky the change is, e.g. "proven_safe" or "risky".
         comment: The commit summary text.
     """
     try:
         symbolic_risk = resolve_risk_name(risk)
+        symbolic_intention = resolve_intention_name(intention)
         result = do_commit(
-            location=location, intention=intention, risk=symbolic_risk, comment=comment
+            location=location,
+            intention=symbolic_intention,
+            risk=symbolic_risk,
+            comment=comment,
         )
     except (NotationError, CommitError) as e:
         raise ValueError(str(e)) from e
@@ -59,7 +68,9 @@ def notation_reference() -> str:
     risk_lines = "\n".join(
         f"  {name}  {RISK_LEVELS[symbol]}" for name, symbol in RISK_NAMES.items()
     )
-    intention_lines = "\n".join(f"  {code}  {name}" for code, name in INTENTIONS.items())
+    intention_lines = "\n".join(
+        f"  {name}  {INTENTIONS[symbol]}" for name, symbol in INTENTION_NAMES.items()
+    )
     return f"Risk levels:\n{risk_lines}\n\nIntentions:\n{intention_lines}"
 
 

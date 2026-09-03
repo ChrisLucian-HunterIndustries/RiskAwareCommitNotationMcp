@@ -31,17 +31,16 @@ descriptions, and input/output schemas) is captured in
 |-------------|-------------------------------------------------------------------------------|
 | `location`  | Path to the Git repository (or a directory inside it).                        |
 | `risk`      | One of `proven_safe`, `validated`, `risky`, `probably_broken`.                |
-| `intention` | A core intention (`F`/`f`, `B`/`b`, `R`/`r`, `D`/`d`) or an Extension Intention (`e`, `t`, `m`, `a`, `c`, `C`, `p`, `s`, `n`, and uppercase variants). |
+| `intention` | A core intention (`feature`, `bugfix`, `refactoring`, `documentation`) or an Extension Intention (`environment`, `test_only`, `merge`, `auto`, `comment`, `content`, `process`, `spec`, `nop`), each with a `_user_visible` variant (e.g. `feature_user_visible`) for a behavior-changing / user-visible change. |
 | `comment`   | The commit summary text.                                                      |
 
-`risk` is a named value rather than the raw RACN symbol so a caller doesn't
-have to memorize single-character codes; the server translates it to the
-symbol before building the commit message. Casing on the intention letter
-follows your team's convention (e.g. uppercase = user-visible / intended
-behavior change, lowercase = internal). See the
+`risk` and `intention` are named values rather than the raw RACN symbols so
+a caller doesn't have to memorize single-character codes; the server
+translates them to the symbol before building the commit message. Call
+`notation_reference` for the full list and what each means. See the
 [RACN README](https://github.com/RefactoringCombos/ArlosCommitNotation)
 and [Extension Intentions](https://github.com/RefactoringCombos/ArlosCommitNotation/blob/main/Extension%20Intentions.md)
-docs for the full notation.
+docs for the underlying notation.
 
 ## Setup
 

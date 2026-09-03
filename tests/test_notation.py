@@ -1,9 +1,11 @@
 import pytest
 
 from racn_mcp.notation import (
+    INTENTION_NAMES,
     RISK_NAMES,
     NotationError,
     format_commit_message,
+    resolve_intention_name,
     resolve_risk_name,
 )
 
@@ -64,3 +66,13 @@ def test_resolve_risk_name_maps_every_name_to_its_symbol(name, symbol):
 def test_resolve_risk_name_rejects_unknown_name():
     with pytest.raises(NotationError, match="Invalid risk"):
         resolve_risk_name("unknown")
+
+
+@pytest.mark.parametrize(("name", "symbol"), INTENTION_NAMES.items())
+def test_resolve_intention_name_maps_every_name_to_its_symbol(name, symbol):
+    assert resolve_intention_name(name) == symbol
+
+
+def test_resolve_intention_name_rejects_unknown_name():
+    with pytest.raises(NotationError, match="Invalid intention"):
+        resolve_intention_name("unknown")

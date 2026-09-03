@@ -1,6 +1,6 @@
 [
     {
-        "description": "Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.\n\nThe resulting commit message has the form \"<risk> <intention> <comment>\".\nAssumes changes are already staged (`git add`) at `location`.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    intention: One of F/f (Feature), B/b (Bugfix), R/r (Refactoring), D/d (Documentation).\n    risk: How risky the change is, e.g. \"proven_safe\" or \"risky\".\n    comment: The commit summary text.\n",
+        "description": "Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.\n\nThe resulting commit message has the form \"<risk> <intention> <comment>\",\ne.g. \". test_only Add approval test\". Call `notation_reference` first to\nsee the full list of intentions and risk levels and what each means.\nAssumes changes are already staged (`git add`) at `location`.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    intention: The author's intention for the change, e.g. \"feature\" or \"test_only\".\n    risk: How risky the change is, e.g. \"proven_safe\" or \"risky\".\n    comment: The commit summary text.\n",
         "input_schema": {
             "properties": {
                 "comment": {
@@ -8,6 +8,32 @@
                     "type": "string"
                 },
                 "intention": {
+                    "enum": [
+                        "feature",
+                        "feature_user_visible",
+                        "bugfix",
+                        "bugfix_user_visible",
+                        "refactoring",
+                        "refactoring_user_visible",
+                        "documentation",
+                        "documentation_user_visible",
+                        "merge",
+                        "merge_user_visible",
+                        "test_only",
+                        "test_only_user_visible",
+                        "environment",
+                        "environment_user_visible",
+                        "auto",
+                        "auto_user_visible",
+                        "comment",
+                        "content",
+                        "process",
+                        "process_user_visible",
+                        "spec",
+                        "spec_user_visible",
+                        "nop",
+                        "nop_user_visible"
+                    ],
                     "title": "Intention",
                     "type": "string"
                 },

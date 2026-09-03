@@ -45,8 +45,12 @@ EXTENSION_INTENTIONS: dict[str, str] = {
 
 INTENTIONS: dict[str, str] = {**CORE_INTENTIONS, **EXTENSION_INTENTIONS}
 
-# Named form of the risk levels above, for callers (e.g. LLMs) that reason
-# more reliably about words than single-character RACN symbols.
+# Named forms of the risk levels and intentions above, for callers (e.g. LLMs)
+# that reason more reliably about words than single-character RACN symbols.
+# Uppercase RACN symbols denote a "behavior-changing / user-visible" variant
+# of the same intention; that distinction is spelled out with a
+# "_user_visible" suffix here rather than as a separate parameter, since a
+# few symbols (comment/content) have no such counterpart.
 RISK_NAMES: dict[str, str] = {
     "proven_safe": ".",
     "validated": "^",
@@ -54,7 +58,35 @@ RISK_NAMES: dict[str, str] = {
     "probably_broken": "@",
 }
 
+INTENTION_NAMES: dict[str, str] = {
+    "feature": "f",
+    "feature_user_visible": "F",
+    "bugfix": "b",
+    "bugfix_user_visible": "B",
+    "refactoring": "r",
+    "refactoring_user_visible": "R",
+    "documentation": "d",
+    "documentation_user_visible": "D",
+    "merge": "m",
+    "merge_user_visible": "M",
+    "test_only": "t",
+    "test_only_user_visible": "T",
+    "environment": "e",
+    "environment_user_visible": "E",
+    "auto": "a",
+    "auto_user_visible": "A",
+    "comment": "c",
+    "content": "C",
+    "process": "p",
+    "process_user_visible": "P",
+    "spec": "s",
+    "spec_user_visible": "S",
+    "nop": "n",
+    "nop_user_visible": "N",
+}
+
 RiskName = Literal[tuple(RISK_NAMES)]
+IntentionName = Literal[tuple(INTENTION_NAMES)]
 
 
 class NotationError(ValueError):
@@ -68,6 +100,16 @@ def resolve_risk_name(name: str) -> str:
     except KeyError:
         raise NotationError(
             f"Invalid risk {name!r}. Must be one of: {', '.join(RISK_NAMES)}"
+        ) from None
+
+
+def resolve_intention_name(name: str) -> str:
+    """Translate a named intention (e.g. "test_only") to its RACN symbol (e.g. "t")."""
+    try:
+        return INTENTION_NAMES[name]
+    except KeyError:
+        raise NotationError(
+            f"Invalid intention {name!r}. Must be one of: {', '.join(INTENTION_NAMES)}"
         ) from None
 
 

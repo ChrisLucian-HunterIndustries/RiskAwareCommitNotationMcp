@@ -22,7 +22,9 @@ def test_commit_tool_commits_staged_changes(repo: Path):
     (repo / "a.txt").write_text("hello")
     _git(repo, "add", "a.txt")
 
-    result = commit(location=str(repo), intention="r", risk="proven_safe", comment="Add a.txt")
+    result = commit(
+        location=str(repo), intention="refactoring", risk="proven_safe", comment="Add a.txt"
+    )
 
     assert result.startswith("Committed ")
     assert result.endswith(". r Add a.txt")
@@ -41,12 +43,12 @@ def test_commit_tool_raises_value_error_for_invalid_risk(repo: Path):
     _git(repo, "add", "a.txt")
 
     with pytest.raises(ValueError, match="Invalid risk"):
-        commit(location=str(repo), intention="r", risk="unknown", comment="x")
+        commit(location=str(repo), intention="refactoring", risk="unknown", comment="x")
 
 
 def test_commit_tool_raises_value_error_when_nothing_staged(repo: Path):
     with pytest.raises(ValueError, match="No staged changes"):
-        commit(location=str(repo), intention="r", risk="proven_safe", comment="x")
+        commit(location=str(repo), intention="refactoring", risk="proven_safe", comment="x")
 
 
 def test_notation_reference_lists_risk_levels_and_intentions():
@@ -55,7 +57,7 @@ def test_notation_reference_lists_risk_levels_and_intentions():
     assert "Risk levels:" in text
     assert "Intentions:" in text
     assert "proven_safe  Proven Safe" in text
-    assert "F  Feature" in text
+    assert "feature  Feature" in text
 
 
 def test_server_instructions_explain_racn_usage():

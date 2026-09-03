@@ -11,11 +11,12 @@ of habit. Check whether an **Extension Intention** fits better first.
 
 This document reasons in terms of the single-character RACN symbols (`.`,
 `F`, `t`, etc.), since that's the vocabulary of the underlying notation and
-of this repo's own `git log`. The `commit` tool's `risk` parameter, however,
-takes the named form of each symbol (call `notation_reference` for the
-authoritative list) — e.g. pass `risk="proven_safe"` for `.`. Do the
-classification below in symbols, then translate the risk to its name when
-calling `commit`.
+of this repo's own `git log`. The `commit` tool itself, however, takes the
+named form of each symbol (call `notation_reference` for the authoritative
+list) — e.g. pass `risk="proven_safe"` for `.`, `intention="test_only"` for
+`t`, or `intention="feature_user_visible"` for the uppercase/user-visible
+form of `F`. Do the classification below in symbols, then translate the
+final answer to its name when calling `commit`.
 
 ## Intention: check Extension Intentions before Core Intentions
 
