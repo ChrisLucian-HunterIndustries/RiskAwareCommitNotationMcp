@@ -23,7 +23,10 @@ def test_commit_tool_commits_staged_changes(repo: Path):
     _git(repo, "add", "a.txt")
 
     result = commit(
-        location=str(repo), intention="refactoring", risk="proven_safe", comment="Add a.txt"
+        location=str(repo),
+        intention="refactoring",
+        risk="proven_safe",
+        comment="Add a.txt",
     )
 
     assert result.startswith("Committed ")
@@ -48,7 +51,9 @@ def test_commit_tool_raises_value_error_for_invalid_risk(repo: Path):
 
 def test_commit_tool_raises_value_error_when_nothing_staged(repo: Path):
     with pytest.raises(ValueError, match="No staged changes"):
-        commit(location=str(repo), intention="refactoring", risk="proven_safe", comment="x")
+        commit(
+            location=str(repo), intention="refactoring", risk="proven_safe", comment="x"
+        )
 
 
 def test_notation_reference_lists_risk_levels_and_intentions():

@@ -33,7 +33,9 @@ mcp = MCPServer(
 
 
 @mcp.tool()
-def commit(location: str, intention: IntentionName, risk: RiskName, comment: str) -> str:
+def commit(
+    location: str, intention: IntentionName, risk: RiskName, comment: str
+) -> str:
     """Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.
 
     The resulting commit message has the form "<risk> <intention> <comment>",
