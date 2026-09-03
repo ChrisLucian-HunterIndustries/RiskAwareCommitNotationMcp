@@ -27,7 +27,11 @@ mcp = MCPServer(
         "`notation_reference` to look up the valid risk levels and intentions "
         "(including Extension Intentions) before classifying a change, then "
         "call `commit` with the classification. Stage changes with `git add` "
-        "first; this server does not stage them for you."
+        "first; this server does not stage them for you. This tool is "
+        "intended to be used with very small, focused commits: stage and "
+        "commit one distinct concern at a time rather than batching several "
+        "into one call. Skipping small commits in favor of large ones "
+        "produces a less clear commit history."
     ),
 )
 

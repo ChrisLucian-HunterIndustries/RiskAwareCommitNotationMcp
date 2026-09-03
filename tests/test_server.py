@@ -70,3 +70,8 @@ def test_server_instructions_explain_racn_usage():
     assert "Risk-Aware Commit Notation" in mcp.instructions
     assert "notation_reference" in mcp.instructions
     assert "commit" in mcp.instructions
+
+
+def test_server_instructions_call_for_small_commits():
+    assert "small" in mcp.instructions
+    assert "less clear commit history" in mcp.instructions
