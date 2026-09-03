@@ -1,6 +1,7 @@
 import asyncio
 
-from approvaltests import verify_as_json
+from approvaltests import Options, verify_as_json
+from approvaltests.namer.templated_custom_namer import TemplatedCustomNamer
 
 from racn_mcp.server import mcp
 
@@ -10,4 +11,7 @@ def test_tools_manifest():
     tools = asyncio.run(mcp.list_tools())
     manifest = [tool.model_dump(mode="json", exclude_none=True) for tool in tools]
 
-    verify_as_json(manifest)
+    namer = TemplatedCustomNamer(
+        "{test_source_directory}/manifest.{approved_or_received}.{file_extension}"
+    )
+    verify_as_json(manifest, options=Options().with_namer(namer))
