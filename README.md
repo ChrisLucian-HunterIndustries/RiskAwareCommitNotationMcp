@@ -21,6 +21,10 @@ The server exposes two MCP tools:
   intentions (including project Extension Intentions), for a client to look
   up before calling `commit`.
 
+The JSON manifest a consuming MCP client reads for these tools (names,
+descriptions, and input/output schemas) is captured in
+[`tests/test_manifest.test_tools_manifest.approved.json`](tests/test_manifest.test_tools_manifest.approved.json).
+
 ### `commit` parameters
 
 | Parameter   | Description                                                                 |
