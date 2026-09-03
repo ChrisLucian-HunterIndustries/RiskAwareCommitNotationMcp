@@ -13,6 +13,13 @@ run = [
 description = "Run the MCP server on stdio"
 run = "uv run risk-aware-commit-notation-mcp"
 
+[tasks.restart]
+description = "Stop any running racn MCP server processes (which can hold a lock on .venv/Scripts and block uv sync on Windows), then start fresh"
+run = [
+    "powershell -NoProfile -Command \"Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match [regex]::Escape('RiskAwareCommitNotationMcp') -and $_.Name -match 'python.exe|uv.exe' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } \"",
+    "mise run run",
+]
+
 [tasks.format]
 description = "Format all code"
 run = [
