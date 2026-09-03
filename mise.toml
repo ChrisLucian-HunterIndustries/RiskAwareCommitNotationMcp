@@ -12,3 +12,10 @@ run = [
 [tasks.run]
 description = "Run the MCP server on stdio"
 run = "uv run risk-aware-commit-notation-mcp"
+
+[tasks.format]
+description = "Format all code"
+run = [
+    "uv sync",
+    "uv run ruff format .",
+]

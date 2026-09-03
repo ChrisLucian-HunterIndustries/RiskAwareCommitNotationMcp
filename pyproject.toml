@@ -13,6 +13,7 @@ risk-aware-commit-notation-mcp = "racn_mcp.server:main"
 [dependency-groups]
 dev = [
     "pytest>=8.0.0",
+    "ruff>=0.8.0",
 ]
 
 [build-system]
