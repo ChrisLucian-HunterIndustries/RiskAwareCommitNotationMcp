@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from racn_mcp.server import commit, notation_reference
+from racn_mcp.server import commit, mcp, notation_reference
 
 
 def _git(repo: Path, *args: str) -> None:
@@ -52,3 +52,10 @@ def test_notation_reference_lists_risk_levels_and_intentions():
     assert "Intentions:" in text
     assert ".  Proven Safe" in text
     assert "F  Feature" in text
+
+
+def test_server_instructions_explain_racn_usage():
+    assert mcp.instructions is not None
+    assert "Risk-Aware Commit Notation" in mcp.instructions
+    assert "notation_reference" in mcp.instructions
+    assert "commit" in mcp.instructions

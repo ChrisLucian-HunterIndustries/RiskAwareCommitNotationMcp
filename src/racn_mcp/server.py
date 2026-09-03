@@ -7,7 +7,19 @@ from mcp.server.mcpserver import MCPServer
 from racn_mcp.git_commit import CommitError, commit as do_commit
 from racn_mcp.notation import INTENTIONS, RISK_LEVELS
 
-mcp = MCPServer("risk-aware-commit-notation")
+mcp = MCPServer(
+    "risk-aware-commit-notation",
+    instructions=(
+        "Commits changes to a Git repository using Arlo's Risk-Aware Commit "
+        "Notation (RACN). RACN messages take the form "
+        '"<risk> <intention> <comment>", encoding how risky a change is and '
+        "what the author intended alongside the summary. Call "
+        "`notation_reference` to look up the valid risk levels and intentions "
+        "(including Extension Intentions) before classifying a change, then "
+        "call `commit` with the classification. Stage changes with `git add` "
+        "first; this server does not stage them for you."
+    ),
+)
 
 
 @mcp.tool()
