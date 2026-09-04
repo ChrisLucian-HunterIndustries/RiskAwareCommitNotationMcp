@@ -20,6 +20,31 @@ Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
 
 See the [README](README.md) for running the server.
 
+## Testing
+
+```sh
+./build_and_test   # full suite: installs deps, then runs pytest
+uv run pytest      # run tests directly, e.g. to target one file/test
+```
+
+### Docker-based smoke test
+
+The [Dockerfile](Dockerfile) is not part of the automated suite; it exists to
+verify, on a clean machine, that the README's "Running the server"
+instructions (i.e. [`docs/running-the-server.sh`](docs/running-the-server.sh))
+actually work end to end — installing mise, cloning the repo, and starting
+the server. Run it manually after changing those instructions or the
+Dockerfile itself:
+
+```sh
+docker build -t racn-mcp .
+docker run --rm -i racn-mcp
+```
+
+A successful run installs Python/uv via mise, builds the venv, and leaves the
+MCP server running on stdio (it blocks waiting for a client — Ctrl+C or
+closing stdin to stop it is expected, not a failure).
+
 ## Development
 
 Source lives in `src/racn_mcp/`:
@@ -28,7 +53,7 @@ Source lives in `src/racn_mcp/`:
 - `git_commit.py` — runs the actual `git commit`.
 - `server.py` — the MCP server and tool definitions.
 
-Tests live in `tests/` and run via `./build_and_test` or `uv run pytest`.
+Tests live in `tests/` — see [Testing](#testing) above for how to run them.
 
 This repo dogfoods its own notation: check `git log` for commit messages in
 RACN format, and see `.claude/skills/racn-classify/SKILL.md` for the
