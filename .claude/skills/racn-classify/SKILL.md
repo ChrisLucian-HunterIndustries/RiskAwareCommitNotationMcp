@@ -70,6 +70,24 @@ of whether its audience is package consumers or this team's own contributors
 or coding agents. Reserve `e` for actual dev tooling/config (`.gitignore`,
 CI workflow files, lint/build config, `mise.toml`, lockfiles).
 
+### `t` (Test-only) also covers manual/non-automated test tooling
+
+`t` isn't limited to changes inside an automated test suite. A script, config
+file (e.g. a `Dockerfile`), or other artifact whose sole purpose is verifying
+that something works — plus any docs written to explain how to run it — is
+still `t`, even though none of it is a `pytest`/CI-executed test. Don't
+reclassify it as `e` (it's not dev-workflow tooling, it exists to test) or as
+`D` (its prose exists only to document that testing tool, not to document the
+product or contributor workflow generally).
+
+When a single concern spans multiple files of different *apparent* type — a
+test-tooling script plus the CONTRIBUTING.md section documenting it — that's
+still one commit, not one per file/type. Splitting by file would produce an
+intermediate commit with an undocumented tool or a doc section pointing at a
+file that doesn't exist yet. This is the same "don't split what only makes
+sense as a unit" principle as the README→CONTRIBUTING move below, just
+triggered by file type instead of file identity.
+
 ## Risk level
 
 Ask: what did the author do to verify this commit, and who is affected if it's wrong?
