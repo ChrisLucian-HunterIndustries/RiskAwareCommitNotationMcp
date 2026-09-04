@@ -14,3 +14,6 @@ Treat this end-of-task report as mandatory, like a checklist item — don't let 
 Information about this project found in @InternalDocuments/project.md
 
 Always write automated tests for code you add or change — don't rely on manual verification or claim a change works without a test proving it. This also determines RACN risk level: untested code cannot be `^` or `.`, only `!` or `@`. See the `racn-classify` skill for how test coverage drives the risk level.
+
+README.md vs CONTRIBUTING.md is split by audience (user-facing vs.
+contributor-only) — see [CONTRIBUTING.md](CONTRIBUTING.md).

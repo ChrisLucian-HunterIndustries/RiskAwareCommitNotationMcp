@@ -4,6 +4,12 @@ This file covers working on the project itself. Anything a user of the
 server needs (what it does, how to run it) belongs in the [README](README.md)
 instead.
 
+When deciding where new content goes, the dividing line is audience, not how
+the content looks: ask whether a *user* of the server needs it (README) vs.
+only a *contributor working on the project itself* (here) — not whether it
+looks like a shell command or dev-tooling detail. "How to run the server" is
+user-facing even though it's a `mise run` command, and belongs in the README.
+
 ## Setup
 
 Requires [mise](https://mise.jdx.dev/); it installs Python and uv for you.
