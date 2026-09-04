@@ -47,11 +47,15 @@ docs for the underlying notation.
 Requires [mise](https://mise.jdx.dev/) — it installs the pinned Python and
 uv for you, so no other setup is needed.
 
+<!-- snippet: running-the-server.sh -->
+<a id='snippet-running-the-server.sh'></a>
 ```sh
 git clone https://github.com/JayBazuzi/RiskAwareCommitNotationMcp.git
 cd RiskAwareCommitNotationMcp
 mise run run
 ```
+<sup><a href='/docs/running-the-server.sh#L1-L3' title='Snippet source file'>snippet source</a> | <a href='#snippet-running-the-server.sh' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 `mise run run` installs Python/uv and dependencies on first use, then starts
 the server on stdio, ready to be connected to by an MCP client (e.g.
