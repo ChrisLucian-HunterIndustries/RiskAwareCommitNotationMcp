@@ -19,3 +19,10 @@ run = [
     "uv sync",
     "uv run ruff format .",
 ]
+
+[tasks.docs]
+description = "Regenerate Markdown snippets embedded in docs (e.g. README.md)"
+run = [
+    "dotnet tool restore",
+    "dotnet mdsnippets",
+]
