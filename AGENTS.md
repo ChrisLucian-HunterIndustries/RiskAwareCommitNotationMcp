@@ -17,3 +17,6 @@ Always write automated tests for code you add or change — don't rely on manual
 
 README.md vs CONTRIBUTING.md is split by audience (user-facing vs.
 contributor-only) — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Doc regeneration (`mise run docs`, MarkdownSnippets marker syntax) is
+documented in [CONTRIBUTING.md](CONTRIBUTING.md).

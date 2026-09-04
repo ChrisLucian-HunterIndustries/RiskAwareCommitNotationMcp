@@ -34,6 +34,26 @@ This repo dogfoods its own notation: check `git log` for commit messages in
 RACN format, and see `.claude/skills/racn-classify/SKILL.md` for the
 risk/intention classification process used when committing here.
 
+### Regenerating embedded docs
+
+`mise run docs` runs the MarkdownSnippets dotnet tool (config in
+`mdsnippets.json`, tool manifest in `.config/dotnet-tools.json`) to embed
+`docs/running-the-server.sh` into README.md as a fenced code block. It uses
+two markers that are not interchangeable:
+
+- `<!-- snippet: <name-or-filename> -->` — embeds a fenced code block.
+  Referencing a whole file by filename (e.g. `snippet: running-the-server.sh`)
+  pulls in the entire file, auto-wrapped in a fence with language detected
+  from the extension, plus an anchor and a "snippet source" backlink. No
+  begin/end markers are needed inside the source file for this whole-file
+  form.
+- `<!-- include: <key> -->` — splices raw markdown/prose into a document
+  (e.g. a doc index). It requires the source file to be named
+  `<key>.include.md`, does **not** auto-wrap content in a fence, and is not a
+  substitute for `snippet:` when embedding a code file.
+
+There is no `import:` marker — use `snippet:` for embedding code/scripts.
+
 ## Committing
 
 Always use the `racn` MCP server's `commit` tool to commit changes in this
