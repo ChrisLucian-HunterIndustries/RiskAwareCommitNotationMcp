@@ -11,12 +11,17 @@ the caller to remember the syntax.
 
 ## What it does
 
-The server exposes two MCP tools:
+The server exposes three MCP tools:
 
 - **`commit`** — commits the currently staged changes in a Git repository
   using a RACN-formatted message (`"<risk> <intention> <comment>"`, e.g.
   `. r Extract method`). It does **not** stage changes for you; run `git add`
-  first.
+  first. Optionally pass `theme_slug` and `theme_mode` to group several
+  commits under a feature theme — see [Grouping commits under a feature
+  theme](#grouping-commits-under-a-feature-theme) below.
+- **`close_theme`** — merges a `d_shaped_merge` theme's branch back into a
+  target branch, non-fast-forward, with the theme's slug as the merge
+  commit's message.
 - **`notation_reference`** — returns the full list of valid risk levels and
   intentions (including project Extension Intentions), for a client to look
   up before calling `commit`.
@@ -27,12 +32,14 @@ descriptions, and input/output schemas) is captured in
 
 ### `commit` parameters
 
-| Parameter   | Description                                                                 |
-|-------------|-------------------------------------------------------------------------------|
-| `location`  | Path to the Git repository (or a directory inside it).                        |
-| `risk`      | One of `proven_safe`, `validated`, `risky`, `probably_broken`.                |
-| `intention` | A core intention (`feature`, `bugfix`, `refactoring`, `documentation`) or an Extension Intention (`environment`, `test_only`, `merge`, `auto`, `comment`, `content`, `process`, `spec`, `nop`), each with a `_user_visible` variant (e.g. `feature_user_visible`) for a behavior-changing / user-visible change. |
-| `comment`   | The commit summary text.                                                      |
+| Parameter    | Description                                                                 |
+|--------------|-------------------------------------------------------------------------------|
+| `location`   | Path to the Git repository (or a directory inside it).                        |
+| `risk`       | One of `proven_safe`, `validated`, `risky`, `probably_broken`.                |
+| `intention`  | A core intention (`feature`, `bugfix`, `refactoring`, `documentation`) or an Extension Intention (`environment`, `test_only`, `merge`, `auto`, `comment`, `content`, `process`, `spec`, `nop`), each with a `_user_visible` variant (e.g. `feature_user_visible`) for a behavior-changing / user-visible change. |
+| `comment`    | The commit summary text.                                                      |
+| `theme_slug` | Optional feature theme slug (lowercase, hyphenated, e.g. `checkout-redesign`) grouping this commit with others. Must be given together with `theme_mode`. |
+| `theme_mode` | Optional; either `inline` or `d_shaped_merge`. Required together with `theme_slug`. |
 
 `risk` and `intention` are named values rather than the raw RACN symbols so
 a caller doesn't have to memorize single-character codes; the server
@@ -41,6 +48,22 @@ translates them to the symbol before building the commit message. Call
 [RACN README](https://github.com/RefactoringCombos/ArlosCommitNotation)
 and [Extension Intentions](https://github.com/RefactoringCombos/ArlosCommitNotation/blob/main/Extension%20Intentions.md)
 docs for the underlying notation.
+
+### Grouping commits under a feature theme
+
+Pass `theme_slug` and `theme_mode` to `commit` to mark several commits as
+belonging to the same feature theme:
+
+- **`inline`** — the slug is embedded in each commit's message, e.g.
+  `. f [checkout-redesign] Add validation`. Commits stay on the current
+  branch.
+- **`d_shaped_merge`** — each commit is made on a branch named after the
+  slug instead of the current branch (created from the current HEAD the
+  first time the slug is used). Once all of a theme's commits are made,
+  call **`close_theme`** with the same slug and a `target_branch` to merge
+  that branch back non-fast-forward (`git merge --no-ff`), using the slug as
+  the merge commit's message — grouping the theme's commits under a single
+  "D"-shaped merge in the history.
 
 ## Running the server
 
