@@ -1,6 +1,6 @@
 [
     {
-        "description": "Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.\n\nThe resulting commit message has the form \"<risk> <intention> <comment>\",\ne.g. \". test_only Add approval test\". Call `notation_reference` first to\nsee the full list of intentions and risk levels and what each means.\nAssumes changes are already staged (`git add`) at `location`.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    intention: The author's intention for the change, e.g. \"feature\" or \"test_only\".\n    risk: How risky the change is, e.g. \"proven_safe\" or \"risky\".\n    comment: The commit summary text.\n",
+        "description": "Commit staged changes in a Git repository using Arlo's Risk-Aware Commit Notation.\n\nThe resulting commit message has the form \"<risk> <intention> <comment>\",\ne.g. \". test_only Add approval test\". Call `notation_reference` first to\nsee the full list of intentions and risk levels and what each means.\nAssumes changes are already staged (`git add`) at `location`.\n\nPass `theme_slug` and `theme_mode` together to group this commit with\nothers under a feature theme (a lowercase, hyphenated slug, e.g.\n\"checkout-redesign\"):\n\n- `theme_mode=\"inline\"`: the slug is embedded in this commit's message,\n  e.g. \". f [checkout-redesign] Add validation\".\n- `theme_mode=\"d_shaped_merge\"`: this commit is made on a branch named\n  after the slug (created from the current HEAD the first time it's\n  used) instead of the current branch. Call `close_theme` afterwards to\n  merge that branch back with `slug` as the merge commit's message,\n  forming a \"D\" shape in the history.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    intention: The author's intention for the change, e.g. \"feature\" or \"test_only\".\n    risk: How risky the change is, e.g. \"proven_safe\" or \"risky\".\n    comment: The commit summary text.\n    theme_slug: Feature theme slug to group this commit under, if any.\n    theme_mode: How to group commits under `theme_slug`: \"inline\" or \"d_shaped_merge\".\n",
         "input_schema": {
             "properties": {
                 "comment": {
@@ -50,6 +50,34 @@
                     ],
                     "title": "Risk",
                     "type": "string"
+                },
+                "theme_mode": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "inline",
+                                "d_shaped_merge"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Theme Mode"
+                },
+                "theme_slug": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Theme Slug"
                 }
             },
             "required": [
@@ -73,6 +101,46 @@
                 "result"
             ],
             "title": "commitOutput",
+            "type": "object"
+        }
+    },
+    {
+        "description": "Merge a \"d_shaped_merge\" feature theme's branch back into `target_branch`.\n\nMerges non-fast-forward (`git merge --no-ff`) so the theme's commits\nstay grouped under a single merge commit on top of `target_branch`, using\n`slug` as that merge commit's message. Call this once all of a theme's\n`commit(..., theme_mode=\"d_shaped_merge\")` calls are done.\n\nArgs:\n    location: Path to the Git repository (or a directory inside it).\n    slug: The feature theme slug previously passed to `commit` as `theme_slug`.\n    target_branch: The branch to merge the theme's branch into.\n",
+        "input_schema": {
+            "properties": {
+                "location": {
+                    "title": "Location",
+                    "type": "string"
+                },
+                "slug": {
+                    "title": "Slug",
+                    "type": "string"
+                },
+                "target_branch": {
+                    "title": "Target Branch",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "location",
+                "slug",
+                "target_branch"
+            ],
+            "title": "close_themeArguments",
+            "type": "object"
+        },
+        "name": "close_theme",
+        "output_schema": {
+            "properties": {
+                "result": {
+                    "title": "Result",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "result"
+            ],
+            "title": "close_themeOutput",
             "type": "object"
         }
     },
