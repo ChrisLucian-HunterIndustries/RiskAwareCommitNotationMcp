@@ -7,6 +7,7 @@ from racn_mcp.notation import (
     format_commit_message,
     resolve_intention_name,
     resolve_risk_name,
+    validate_theme_slug,
 )
 
 
@@ -76,3 +77,38 @@ def test_resolve_intention_name_maps_every_name_to_its_symbol(name, symbol):
 def test_resolve_intention_name_rejects_unknown_name():
     with pytest.raises(NotationError, match="Invalid intention"):
         resolve_intention_name("unknown")
+
+
+def test_formats_message_with_theme_slug():
+    assert (
+        format_commit_message(
+            ".", "f", "Add validation", theme_slug="checkout-redesign"
+        )
+        == ". f [checkout-redesign] Add validation"
+    )
+
+
+def test_rejects_invalid_theme_slug_in_message():
+    with pytest.raises(NotationError, match="Invalid theme slug"):
+        format_commit_message(".", "f", "x", theme_slug="Not A Slug")
+
+
+@pytest.mark.parametrize("slug", ["checkout-redesign", "a", "a1-b2"])
+def test_validate_theme_slug_accepts_valid_slugs(slug):
+    assert validate_theme_slug(slug) == slug
+
+
+@pytest.mark.parametrize(
+    "slug",
+    [
+        "",
+        "Checkout",
+        "checkout redesign",
+        "-checkout",
+        "checkout-",
+        "checkout--redesign",
+    ],
+)
+def test_validate_theme_slug_rejects_invalid_slugs(slug):
+    with pytest.raises(NotationError, match="Invalid theme slug"):
+        validate_theme_slug(slug)

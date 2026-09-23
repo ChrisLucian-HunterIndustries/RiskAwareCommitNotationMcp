@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Literal
 
 RISK_LEVELS: dict[str, str] = {
@@ -88,6 +89,16 @@ INTENTION_NAMES: dict[str, str] = {
 RiskName = Literal[tuple(RISK_NAMES)]
 IntentionName = Literal[tuple(INTENTION_NAMES)]
 
+# How a feature theme's commits are grouped: "inline" tags each commit's
+# message with the theme slug; "d_shaped_merge" commits to a branch named
+# after the slug, later merged back with the slug as the merge message.
+ThemeMode = Literal["inline", "d_shaped_merge"]
+THEME_MODES: tuple[ThemeMode, ...] = ("inline", "d_shaped_merge")
+
+# Also used as the theme's git branch name in "d_shaped_merge" mode, so it's
+# restricted to characters that are safe and unambiguous in both contexts.
+THEME_SLUG_PATTERN = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+
 
 class NotationError(ValueError):
     """Raised when risk, intention, or comment fail validation."""
@@ -113,10 +124,24 @@ def resolve_intention_name(name: str) -> str:
         ) from None
 
 
-def format_commit_message(risk: str, intention: str, comment: str) -> str:
+def validate_theme_slug(slug: str) -> str:
+    """Validate a feature theme slug, returning it unchanged if valid."""
+    if not THEME_SLUG_PATTERN.fullmatch(slug):
+        raise NotationError(
+            f"Invalid theme slug {slug!r}. Must be lowercase letters, digits, "
+            "and hyphens, e.g. 'checkout-redesign'"
+        )
+    return slug
+
+
+def format_commit_message(
+    risk: str, intention: str, comment: str, theme_slug: str | None = None
+) -> str:
     """Build a commit message in Arlo's Risk-Aware Commit Notation.
 
-    Format: "<risk> <intention> <comment>", e.g. ". r Extract method".
+    Format: "<risk> <intention> <comment>", e.g. ". r Extract method". When
+    `theme_slug` is given, it is inserted bracketed before the comment, e.g.
+    ". r [checkout-redesign] Extract method".
     """
     if risk not in RISK_LEVELS:
         raise NotationError(
@@ -130,4 +155,7 @@ def format_commit_message(risk: str, intention: str, comment: str) -> str:
     if not comment:
         raise NotationError("Comment must not be empty")
 
+    if theme_slug is not None:
+        validate_theme_slug(theme_slug)
+        return f"{risk} {intention} [{theme_slug}] {comment}"
     return f"{risk} {intention} {comment}"
